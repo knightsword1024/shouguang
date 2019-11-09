@@ -1,0 +1,22 @@
+{
+  "name": "物联管理平台",
+  "short_name": "物联管理平台",
+  "display": "standalone",
+  "start_url": "./?utm_source=homescreen",
+  "theme_color": "#002140",
+  "background_color": "#001529",
+  "icons": [
+    {
+      "src": "./assets/bussiness",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./assets/bussiness",
+      "sizes": "128x128"
+    },
+    {
+      "src": "./assets/bussiness",
+      "sizes": "512x512"
+    }
+  ]
+}

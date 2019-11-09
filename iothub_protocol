@@ -1,0 +1,417 @@
+1. ~/iothub/user/login  用户登录
+Req:
+{
+    "user":"admin",
+    "passwd":""        //采用SHA256加密
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":{
+        "token":""      //token有效时长为60分钟
+    }
+}
+
+2. ~/iothub/query/projectinfo       项目信息
+Req:
+{
+    "token" : ""
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":{
+        "projectinfo":[{
+            "sn"   : "SANYUANZHU",
+            "name" : "三元朱",
+            "desc" : ""，
+        },
+        {
+            "sn"   : "SHUICHANYANGZHI",
+            "name" : "水产养殖",
+            "desc" : ""
+        },
+        {
+            "sn"   : "ZHONGQINCHANG",
+            "name" : "种禽场",
+            "desc" : ""
+        },
+        {
+            "sn"   : "GUOSHUJIAGONG",
+            "name" : "果蔬加工",
+            "desc" : ""
+        }]
+    }
+}
+
+3. ~/iothub/query/devlist       //项目下的所有设备列表
+Req:
+{
+    "token"     : "",
+    "projectid" : ""
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":{
+        "projectid":"",
+        "devs":[
+            {
+                "position":[
+                    "一号楼",
+                    "一单元"
+                ],
+                "did":123,
+                "devname":"温度传感器",
+                "gatewayid":"1111",
+                "gatewayname":"网关1",
+                "devtyp":"0001",
+                "devtypname":"设备类型名称"
+            }
+        ]
+
+    }
+}
+
+4. ~/iothub/query/devicestatus      //查询设备的状态
+Req:
+{
+    "token"      : "",
+    "projectid"  : "",
+    "devs"       : ["aaaa","bbbb"]
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":{
+        "projectid":"",
+        "devs":[{
+            "did":"aaaa",
+            "status":1,
+            "lastonlinetime":"2019-11-01 00:00:00" //如果设备从来没有练过服务器，则默认返回 2000-01-01 00:00:00
+        },{
+            "did":"bbbb",
+            "status":1,
+            "lastonlinetime":"2019-11-02 00:00:00" //如果设备从来没有练过服务器，则默认返回 2000-01-01 00:00:00
+        }]
+    }
+}
+
+5. ~/iothub/query/devability        根据设备类型查询设备的能力//调用
+Req:
+{
+    "token":"",
+    "devtyp":"",
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":{
+        "acts":[{
+            "id":"",            //唯一标识符
+            "action":"0",          //动作类型
+            "val":"1",          //动作参数
+            "valname":"制冷",    //参数描述(制热、制冷)
+            "actname":"控制模式", //动作的名称(例如空调的：控制模式、风速档、设定温度、启停控制)
+            "unit":"",          //如果有单位则设置，否则为空
+            //判断输入类型
+        }]
+    }
+}
+
+
+6. ~/iothub/ctrl/device             控制设备
+Req:
+{
+    "token":"",
+    "projectid":"",
+    "did":"",       //设备id
+    "action":"",
+    "val":"",
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success"
+}
+
+7. ~/iothub/query/operaterecord    查询操作记录
+Req:
+{
+    "token":""
+    //项目id
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":[{
+        "devname":"",
+        "did":"",
+        "acttyp":"",
+        "actname":"",
+        "result":"",0/1
+        "operatetime":"",
+        "operateuser":""
+    },{
+        "devname":"",
+        "did":"",
+        "acttyp":"",
+        "actname":"",
+        "result":"",
+        "operatecreate":"",
+        "operateuser":""
+    }]
+}
+
+8. ~/iothub/query/alarmrecord       报警记录
+Req:
+{
+    "token":"",
+    "alarm_typ":"",
+    "devname":"",
+    //项目id
+    //报警状态
+    //处理结果
+    //时间区间
+
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":[{
+        "alarmid":"",
+        "devname":"",
+        "did":"",
+        "devlocation":"",
+        "alarmtyp":"",
+        "alarmname":"",
+        "alarmstatus":"",
+        "remarks":"",
+        "reporttime":""
+    },{
+        "alarmid":"",
+        "devname":"",
+        "did":"",
+        "devlocation":"",
+        "alarmtyp":"",
+        "alarmname":"",
+        "alarmstatus":"",
+        "remarks":"",
+        "reporttime":""
+    }]
+}
+
+9. ~/iothub/update/alarminfo     更新报警信息
+Req:
+{
+    "token":"",
+    "alarmid":"",
+    "status":"",
+    "remarks":""
+}
+Rsp:
+{
+    "code" : 1000,
+    "desc" : "Success"
+}
+
+
+10. ~/iothub/query/sensordata     查询最近一次传感器的数据
+Req:
+{
+    "token":"",
+    "projectid":"",
+    "devs":["",""]
+}
+Rsp:
+{
+    "code" : 1000,
+    "desc" : "Success",
+    "data" : {
+        "devs" : [{
+            "did"         : "",
+            "devname"     : "",
+            "datas":[{
+                "proptyp"     : "300001",
+                "proptypname" : "温度",
+                "val"         : "30.2",
+                "unit"        : "℃",
+                "reporttime"  : "2019-11-03 00:00:00"
+            },{
+                "proptyp"     : "300002",
+                "proptypname" : "湿度",
+                "val"         : "27.2",
+                "unit"        : "%",
+                "reporttime"  : "2019-11-03 00:00:00"
+            }]
+
+        }]
+    }
+}
+
+11. ~/iothub/query/sensorhistoryldata   查询传感器的历史数据
+Req:
+{
+    "token"     : "",
+    "projectid" : "",
+    "did"       : "",     //设备id
+    "proptyp"  : "",
+    "date"      : ""      //可以给指定哪一天，例如2019-11-02
+}
+Rsp:
+{
+    "code" : 1000,
+    "desc" : "Success",
+    "data" : {
+
+    }
+}
+
+
+12. ~/iothub/add/project        添加项目
+Req:
+{
+    "token":"",
+    "projectname":"",
+    "projectdesc":"",
+    "projectlocation":""
+}
+Rsp:
+{
+    "code" : 1000,
+    "desc" : "Success"
+}
+
+13. ~/iothub/query/devtyp       查询设备类型
+Req:
+{
+    "token":""
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success",
+    "data":{
+
+        "devtyps":[{
+
+            "devtyp":1,
+            "name":"空调面板",
+            "desc":"",
+            "acts":[{
+                "id":"",            //唯一标识符
+                "typ":"0",
+                "val":"1",
+                "valname":"制冷",
+                "actname":"控制模式",
+                "cmd":"ac"
+            }]
+        },{
+
+            "devtyp":2,
+            "name":"阀门",
+            "desc":"",
+            "acts":[{
+                "id":"",            //唯一标识符
+                "val":"0"
+                "valname":"关闭",
+                "actname":"启停控制",
+                "cmd":""
+            }]
+        }]
+    }
+}
+
+14. ~/iothub/add/devtyp             添加设备类型
+Req:
+{
+    "token":"",
+    "name":""
+    "desc":""
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success"
+}
+
+16. ~/iothub/delete/devtyp          删除设备类型
+Req:
+{
+    "token":"",
+    "devtyp":1
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success"
+}
+
+17. ~/iothub/add/device             添加设备
+Req:
+{
+    "token":"",
+    "devtyp":1,
+    "projectid","",
+    "devs":["",""]
+    //设备名称
+    //安装位置
+    //备注
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success"
+}
+
+18. ~/iothub/add/devaction          添加设备可执行的动作
+Req:
+{
+    "token":"",
+    "devtyp":1,    //指定要设置的设备类型
+    "typ":"",      //动作类型
+    "val":"",      //动作参数
+    "valname":"",  //参数描述(制热、制冷)
+    "actname":"",  //动作的名称(例如空调的：控制模式、风速档、设定温度、启停控制)
+    "unit":""      //如果有单位则设置，否则为空
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success"
+}
+
+
+19. ~/iothub/delete/devaction           删除动作
+Req:
+{
+    "token":"",
+    "id":1                 //设备动作的唯一标识符
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success"
+}
+
+20. ~/iothub/modify/devtyp              修改设备类型
+Req:
+{
+    "token":"",
+    "projectid":""
+    "did":"",
+    "devtyp":1
+}
+Rsp:
+{
+    "code":1000,
+    "desc":"Success"
+}
+
