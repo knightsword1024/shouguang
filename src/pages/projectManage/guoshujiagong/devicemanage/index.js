@@ -109,7 +109,8 @@ class CreateServe extends Component {
       handleModalServeVisible,
       dispatch,
       projectid,
-      rowValue
+      rowValue,
+      handleSearch
     } = this.props
     const { cmdtyp, senid } = this.state
     form.validateFields((err, fieldsValue) => {
